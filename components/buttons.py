@@ -65,3 +65,29 @@ class CustomBtn(__ElevatedButton):
     ):
         super().__init__(text, icon, on_click, disabled)
         self.update_style(color)
+
+
+class IconBtn(ft.IconButton):
+    def __init__(
+        self,
+        icon: str,
+        color: str | None = "tertiary",
+        icon_size: ft.OptionalNumber = 30,
+        tooltip: str | None = None,
+        on_click=None,
+        disabled: bool | None = None,
+    ):
+        super().__init__(
+            icon,
+            icon_size=icon_size,
+            tooltip=tooltip,
+            on_click=on_click,
+            disabled=disabled,
+        )
+        self.color = color
+        self.highlight_color = f"{color},.2"
+        self.hover_color = f"{color},.1"
+        self.update_style()
+
+    def update_style(self):
+        self.icon_color = "outlinevariant" if self.disabled else self.color
