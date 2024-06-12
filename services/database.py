@@ -75,4 +75,4 @@ class Database:
 
     def delete_member(self, member: Member) -> str:
         self._delete(self._members, member.id)
-        return f"{member.name} deleted"
+        return f"[{member.initials}] {member.name} deleted"
