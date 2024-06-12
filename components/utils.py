@@ -58,3 +58,4 @@ class TextField(ft.TextField):
         self.cursor_color = "tertiary"
         self.border_color = "tertiary"
         self.selection_color = "tertiary,.3"
+        self.focused_border_width = 3
