@@ -20,48 +20,40 @@ class DataTable(ft.DataTable):
         db = Database()
         self.rows.clear()
         for member in db.members:
-            self.rows.append(
-                ft.DataRow(
-                    [
-                        ft.DataCell(ft.Text(member.name)),
-                        self.make_row(ft.Text(member.initials)),
-                        self.make_row(
-                            cp.ColorBtn(
-                                member.color, show_color=True, callback=self.edit_color
-                            ),
-                            data=member,
-                        ),
-                        self.make_row(
-                            ft.Row(
-                                [
-                                    ft.IconButton(
-                                        "edit",
-                                        on_click=self.edit_member,
-                                        style=ft.ButtonStyle(
-                                            color="tertiary",
-                                            overlay_color="tertiary,.1",
-                                        ),
-                                    ),
-                                    ft.IconButton(
-                                        "delete",
-                                        on_click=self.delete_member,
-                                        style=ft.ButtonStyle(
-                                            color="red", overlay_color="red,.1"
-                                        ),
-                                    ),
-                                ],
-                                data=member,
-                            ),
-                            data=member,
-                        ),
-                    ]
-                )
-            )
+            self.rows.append(self.create_row(member))
 
-    def make_row(self, content: ft.Control, data=None):
+    def create_row(self, member: Member) -> ft.DataRow:
+        return ft.DataRow(
+            [
+                ft.DataCell(ft.Text(member.name)),
+                self.make_row(ft.Text(member.initials)),
+                self.make_row(
+                    cp.ColorBtn(
+                        member.color, show_color=True, callback=self.edit_color
+                    ),
+                    data=member,
+                ),
+                self.make_row(self.create_action_buttons(member), data=member),
+            ]
+        )
+
+    def make_row(self, content: ft.Control, data=None) -> ft.DataCell:
         return ft.DataCell(
             ft.Container(content, alignment=ft.alignment.center), data=data
         )
+
+    def create_action_buttons(self, member: Member) -> ft.Row:
+        edit_button = ft.IconButton(
+            "edit",
+            on_click=self.edit_member,
+            style=ft.ButtonStyle(color="tertiary", overlay_color="tertiary,.1"),
+        )
+        delete_button = ft.IconButton(
+            "delete",
+            on_click=self.delete_member,
+            style=ft.ButtonStyle(color="red", overlay_color="red,.1"),
+        )
+        return ft.Row([edit_button, delete_button], data=member)
 
     def edit_color(self, e: ft.ControlEvent, member: Member, color: str):
         if member.color != color:
