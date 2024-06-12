@@ -7,12 +7,13 @@ from .utils import Dialog
 
 
 class __ElevatedButton(ft.ElevatedButton):
-    def __init__(self, text, icon, on_click, disabled):
+    def __init__(self, text, icon, on_click, disabled, visible):
         super().__init__()
         self.text = text
         self.icon = icon
         self.on_click = on_click
         self.disabled = disabled
+        self.visible = visible
 
     def update_style(self, color: str | None = None):
         color = color if color else self.color
@@ -30,8 +31,9 @@ class PrimaryBtn(__ElevatedButton):
         icon: str | None = None,
         on_click=None,
         disabled: bool | None = None,
+        visible: bool | None = None,
     ):
-        super().__init__(text, icon, on_click, disabled)
+        super().__init__(text, icon, on_click, disabled, visible)
         self.update_style("primary")
 
 
@@ -42,8 +44,9 @@ class SecondaryBtn(__ElevatedButton):
         icon: str | None = None,
         on_click=None,
         disabled: bool | None = None,
+        visible: bool | None = None,
     ):
-        super().__init__(text, icon, on_click, disabled)
+        super().__init__(text, icon, on_click, disabled, visible)
         self.update_style("secondary")
 
 
@@ -54,8 +57,9 @@ class TertiaryBtn(__ElevatedButton):
         icon: str | None = None,
         on_click=None,
         disabled: bool | None = None,
+        visible: bool | None = None,
     ):
-        super().__init__(text, icon, on_click, disabled)
+        super().__init__(text, icon, on_click, disabled, visible)
         self.update_style("tertiary")
 
 
@@ -67,8 +71,9 @@ class CustomBtn(__ElevatedButton):
         icon: str | None = None,
         on_click=None,
         disabled: bool | None = None,
+        visible: bool | None = None,
     ):
-        super().__init__(text, icon, on_click, disabled)
+        super().__init__(text, icon, on_click, disabled, visible)
         self.update_style(color)
 
 
