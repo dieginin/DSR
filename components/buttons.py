@@ -137,7 +137,7 @@ class ColorBtn(ft.ElevatedButton):
 
     def _update_button(self, e: ft.ControlEvent):
         if self.__callback:
-            if self.__callback(e, self.parent.data, self._picker.color):  # type: ignore
+            if self.__callback(e, self.parent.parent.data, self._picker.color):  # type: ignore
                 self.value = self._picker.color
                 self.bgcolor = self._picker.color
         else:
