@@ -1,7 +1,7 @@
 import flet as ft
 
 import components as cp
-from services import Database, show_dialog, show_snackbar
+from services import Database, error_snackbar, show_dialog, success_snackbar
 
 
 class SettingsView(ft.View):
@@ -86,7 +86,7 @@ class SettingsView(ft.View):
                 e.page.client_storage.set("store_initials", initials)
                 e.page.client_storage.set("store_name", name)
                 self.__init_components__()
-                show_snackbar(e.page, f"{initials} {name} setted")
+                success_snackbar(e.page, f"{initials} {self.divider} {name} setted")
             else:
                 if initials:
                     name_field.focus()
@@ -111,7 +111,25 @@ class SettingsView(ft.View):
         show_dialog(self.page, "Edit Store", body, "Edit", edit_store)
 
     def add_member(self, _):
-        pass
+        name = self.new_name.value.strip() if self.new_name.value else None
+        initials = self.new_initials.value.strip() if self.new_initials.value else None
+        color = self.new_color.value
+
+        if not name:
+            self.new_name.focus()
+            error_snackbar(self.page, "First you need to set name, initials and color")
+            return
+        if not initials:
+            self.new_initials.focus()
+            error_snackbar(self.page, "First you need to set initials and color")
+            return
+
+        add_result = Database().add_member(name, initials, color)
+        if "inserted" in add_result:
+            self.__init_components__()
+            success_snackbar(self.page, add_result)
+        else:
+            error_snackbar(self.page, add_result)
 
     def suggest_initials(self, e: ft.ControlEvent):
         name_splited = e.control.value.split()
