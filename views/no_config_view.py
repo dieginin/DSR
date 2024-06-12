@@ -32,9 +32,9 @@ class NoConfigView(ft.View):
 
         v = "You're all set."
         if store_not_setted and members_not_setted:
-            v = "First you need to set the store and you need to add at least 1 member."
+            v = "First you need to set the store and add at least 1 member"
         elif store_not_setted:
-            v = "First you need to set the store name and initials."
+            v = "First you need to set the store name and initials"
         elif members_not_setted:
-            v = "First you need to add at least 1 member."
+            v = "First you need to add at least 1 member"
         return cp.Subtitle(v)
