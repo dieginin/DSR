@@ -1,6 +1,10 @@
+from datetime import date
+
 import flet as ft
 
 import components as cp
+from services import Database
+from services.helpers import show_dialog
 
 
 class HomeView(ft.View):
@@ -28,7 +32,9 @@ class HomeView(ft.View):
         )
 
     def buttons(self) -> cp.CenteredColumn:
-        store_opened = False
+        db = Database()
+        store_opened = bool(db.get_report_by_date(date.today()))
+        not_reports = len(db.sales_reports) == 0
         open_btn = cp.CustomBtn(
             "Open Store",
             color="lightgreenaccent",
@@ -47,7 +53,10 @@ class HomeView(ft.View):
             "Count", icon="numbers_rounded", on_click=self.count_money
         )
         view_btn = cp.PrimaryBtn(
-            "Search", icon="search_rounded", on_click=self.view_report
+            "Search",
+            icon="search_rounded",
+            on_click=lambda _: self.page.go("/view"),
+            disabled=not_reports,
         )
         settings_btn = cp.SecondaryBtn(
             "Settings",
@@ -59,13 +68,18 @@ class HomeView(ft.View):
         )
 
     def open_store(self, e: ft.ControlEvent):
-        pass
+        def open(self, e: ft.ControlEvent):
+            pass
+
+        show_dialog(self.page, "Open Store", ft.Text("Store"), "Open", on_confirm=open)
 
     def close_store(self, e: ft.ControlEvent):
-        pass
+        def close(self, e: ft.ControlEvent):
+            pass
+
+        show_dialog(
+            self.page, "Close Store", ft.Text("Store"), "Close", on_confirm=close
+        )
 
     def count_money(self, e: ft.ControlEvent):
-        pass
-
-    def view_report(self, e: ft.ControlEvent):
-        e.page.go("/view")
+        show_dialog(self.page, "Count Money", ft.Text("Store"))
